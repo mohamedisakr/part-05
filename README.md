@@ -1,8 +1,5 @@
 ## Requirements
 
-1. Exercise 4.11 Blog list tests, step4 >> test fails
-2. Exercise 4.22 bloglist expansion step 10 >> not completed
-
 ## Introduction
 
 Studying Deep Dive Into Modern Web Development (Full stack open 2020) @ https://fullstackopen.com/en/
