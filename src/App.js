@@ -2,8 +2,14 @@ import React, { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import login from "./services/login";
+import Notification from "./components/notification";
+import Success from "./components/success";
+import "./App.css";
 
 const App = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [confirmation, setConfirmation] = useState("");
+
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -36,10 +42,14 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
-    } catch (error) {
-      // setErrorMessage('Wrong Credentials')
+      setConfirmation(`${user.name} successfully log in.`);
       setTimeout(() => {
-        // setErrorMessage(null);
+        setConfirmation(null);
+      }, 4000);
+    } catch (error) {
+      setErrorMessage("Wrong Credentials");
+      setTimeout(() => {
+        setErrorMessage(null);
       }, 4000);
     }
   };
@@ -52,13 +62,26 @@ const App = () => {
   };
 
   const handleAddNewBlog = async (event) => {
-    event.preventDefault();
     const newBlog = { title, author, url };
-    const returnedBlog = await blogService.create(newBlog);
-    setBlogs(blogs.concat(returnedBlog));
-    setTitle("");
-    setAuthor("");
-    setUrl("");
+    try {
+      event.preventDefault();
+      const returnedBlog = await blogService.create(newBlog);
+      setBlogs(blogs.concat(returnedBlog));
+      setTitle("");
+      setAuthor("");
+      setUrl("");
+      setConfirmation(
+        `A new blog ${returnedBlog.title} by ${user.name} was added successfully.`
+      );
+      setTimeout(() => {
+        setConfirmation(null);
+      }, 4000);
+    } catch (error) {
+      setErrorMessage(`Error! saving ${newBlog.title}`);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 4000);
+    }
   };
 
   const loginForm = () => (
@@ -139,9 +162,10 @@ const App = () => {
   return (
     <div>
       <h2>Blogs</h2>
+      <Notification message={errorMessage} />
+      <Success message={confirmation} />
       {user === null ? loginForm() : userInfo()}
     </div>
   );
 };
-
 export default App;
