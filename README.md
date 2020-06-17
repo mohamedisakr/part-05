@@ -1,5 +1,8 @@
 ## Requirements
 
+1. Exercise 5.5 Blog list frontend step 5 >> not working properly
+2. Exercise 5.6 Blog list frontend step 6>> not working properly
+
 ## Introduction
 
 Studying Deep Dive Into Modern Web Development (Full stack open 2020) @ https://fullstackopen.com/en/
