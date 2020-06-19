@@ -6,6 +6,7 @@ import Toggable from "./components/togglable";
 import BlogForm from "./components/blog-form";
 import Notification from "./components/notification";
 import Success from "./components/success";
+import sortDesc from "./utils/helpers";
 import "./App.css";
 
 const App = () => {
@@ -110,6 +111,8 @@ const App = () => {
     </Toggable>
   );
 
+  //#region user info
+  /*
   const userInfo = () => (
     <div>
       <span>
@@ -124,6 +127,8 @@ const App = () => {
       </div>
     </div>
   );
+  */
+  //#endregion
 
   return (
     <div>
@@ -135,14 +140,23 @@ const App = () => {
       ) : (
         <div>
           <span>
-            <p>Welcome {user.name}</p>
+            Welcome {user.name}
             <button onClick={handleLogout}>Logout</button>
           </span>
           <div>{blogForm()}</div>
+          {console.log(blogs)}
           <ul>
-            {blogs.map((blog) => (
-              <Blog key={blog.id} blog={blog} />
-            ))}
+            {blogs
+              .sort((a, b) => sortDesc(a, b))
+              .map(({ id, title, url, likes, author }) => (
+                <Blog
+                  key={id}
+                  title={title}
+                  url={url}
+                  likes={likes}
+                  author={author}
+                />
+              ))}
           </ul>
         </div>
       )}
